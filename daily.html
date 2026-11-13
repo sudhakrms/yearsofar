@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Dashboard Mockup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* "Gemini Drift" Background Ambience */
+        body {
+            background-color: #050914; /* Deep dark background */
+            margin: 0;
+            overflow: hidden; /* Prevent scrolling from blurry orbs */
+            font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            color: #f1f5f9;
+        }
+
+        /* Ambient Glowing Orbs */
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.75;
+            z-index: -1;
+            pointer-events: none;
+            mix-blend-mode: screen;
+        }
+
+        /* Deep Blue Orb */
+        .orb-1 {
+            width: 70vw;
+            height: 70vw;
+            background: radial-gradient(circle, rgba(29, 78, 216, 0.8) 0%, rgba(30, 58, 138, 0) 70%);
+            top: -20%;
+            left: -20%;
+            animation: drift1 20s ease-in-out infinite alternate, pulse 8s ease-in-out infinite alternate;
+        }
+
+        /* Vibrant Purple Orb */
+        .orb-2 {
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.8) 0%, rgba(126, 34, 206, 0) 70%);
+            bottom: -20%;
+            right: -10%;
+            animation: drift2 25s ease-in-out infinite alternate, pulse 10s ease-in-out infinite alternate-reverse;
+        }
+
+        /* Soft Pink Orb */
+        .orb-3 {
+            width: 55vw;
+            height: 55vw;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.7) 0%, rgba(219, 39, 119, 0) 70%);
+            top: 20%;
+            left: 30%;
+            animation: drift3 22s ease-in-out infinite alternate, pulse 9s ease-in-out infinite alternate;
+        }
+
+        /* Keyframes for smooth drift and glowing pulse */
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.9; }
+        }
+        @keyframes drift1 {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(15vw, 10vh) scale(1.1); }
+        }
+        @keyframes drift2 {
+            0% { transform: translate(0, 0) scale(1.1); }
+            100% { transform: translate(-15vw, -10vh) scale(0.9); }
+        }
+        @keyframes drift3 {
+            0% { transform: translate(0, 0) scale(0.9); }
+            100% { transform: translate(-10vw, 15vh) scale(1.1); }
+        }
+
+        /* "Liquid Glass" Main Card Styling */
+        .liquid-glass {
+            background: rgba(15, 15, 20, 0.45); 
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-top: 1px solid rgba(255, 255, 255, 0.25); /* Glossy top edge */
+            border-left: 1px solid rgba(255, 255, 255, 0.15); /* Glossy left edge */
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 255, 255, 0.03);
+        }
+
+        /* Clean dividers */
+        .glass-divider {
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 lg:p-8">
+
+    <!-- Ambient Background Elements -->
+    <div class="orb-1 ambient-orb"></div>
+    <div class="orb-2 ambient-orb"></div>
+    <div class="orb-3 ambient-orb"></div>
+
+    <!-- Main Dashboard Card -->
+    <main class="liquid-glass rounded-[2rem] w-full max-w-2xl p-6 sm:p-10 relative">
+        
+        <!-- Top Row: Date & Day of Year -->
+        <header class="flex justify-between items-center text-xs sm:text-sm tracking-[0.15em] text-gray-300 uppercase font-medium">
+            <span id="display-date">Loading date...</span>
+            <span>No. <span id="display-day-number">--</span></span>
+        </header>
+
+        <hr class="glass-divider my-5 sm:my-6 border-t">
+
+        <!-- Main Header: Year Progress -->
+        <h1 class="text-3xl sm:text-5xl font-normal tracking-tight text-white mb-6">
+            The year is <span id="display-year-progress" class="font-semibold">--</span>% written.
+        </h1>
+
+        <hr class="glass-divider my-5 sm:my-6 border-t">
+
+        <!-- Two-Column Section -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-12 text-sm sm:text-base text-gray-300">
+            
+            <!-- Left Column: Today & Weather & Quote -->
+            <section class="flex flex-col gap-6">
+                <h2 class="text-gray-400 font-medium">Today</h2>
+                
+                <div class="flex flex-col gap-1">
+                    <span class="text-lg font-medium text-white">Hyderabad</span>
+                    <div class="flex items-center gap-3 mt-1">
+                        <!-- Mock Weather Icon (Cloudy) -->
+                        <svg class="w-6 h-6 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                        </svg>
+                        <span class="text-xl text-white font-medium">28°C</span>
+                    </div>
+                    <span class="text-gray-400 text-sm mt-1">Partly Cloudy</span>
+                </div>
+
+                <!-- Quote Widget -->
+                <div class="mt-4 pt-4 border-t border-white/5">
+                    <p id="quote-text" class="italic text-gray-200 mb-2 leading-relaxed">
+                        "Loading wisdom..."
+                    </p>
+                    <p id="quote-author" class="text-gray-400 text-sm font-medium">
+                        - 
+                    </p>
+                </div>
+            </section>
+
+            <!-- Right Column: Sky & Astronomy -->
+            <section class="flex flex-col gap-6 sm:border-l sm:border-white/10 sm:pl-8">
+                <h2 class="text-gray-400 font-medium">Sky</h2>
+                
+                <div class="flex flex-col gap-3">
+                    <div class="flex justify-between items-center max-w-[180px]">
+                        <span>Sunrise</span>
+                        <span class="text-white font-medium">6:19 AM</span>
+                    </div>
+                    <div class="flex justify-between items-center max-w-[180px]">
+                        <span>Sunset</span>
+                        <span class="text-white font-medium">5:40 PM</span>
+                    </div>
+                </div>
+
+                <!-- Moon Phase -->
+                <div class="flex items-center gap-4 mt-2">
+                    <!-- Waxing Crescent Moon Icon -->
+                    <div class="relative w-10 h-10 rounded-full border border-gray-400 flex items-center justify-center overflow-hidden">
+                        <div class="absolute right-0 w-3/4 h-full bg-transparent rounded-full border-l border-dashed border-gray-500"></div>
+                    </div>
+                    <span class="text-gray-200 max-w-[100px] leading-tight">Waxing Crescent</span>
+                </div>
+
+                <!-- Dynamic countdown to solstice -->
+                <p class="text-gray-400 mt-4 leading-relaxed max-w-[180px]">
+                    <span id="display-solstice" class="font-medium text-gray-300">--</span> days to the winter solstice
+                </p>
+            </section>
+        </div>
+
+        <hr class="glass-divider my-5 sm:my-6 border-t">
+
+        <!-- Bottom Row: Week & Days Left -->
+        <footer class="flex justify-between items-center text-sm text-gray-400 font-medium">
+            <span>Week <span id="display-week">--</span></span>
+            <span><span id="display-days-left">--</span> days left in <span id="display-current-month">--</span></span>
+        </footer>
+
+    </main>
+
+    <!-- Interactive Logic Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // --- Quotes Data ---
+            const quotes = [
+                { text: "We suffer more often in imagination than in reality.", author: "Seneca" },
+                { text: "The unexamined life is not worth living.", author: "Socrates" },
+                { text: "Happiness depends upon ourselves.", author: "Aristotle" },
+                { text: "He who has a why to live can bear almost any how.", author: "Friedrich Nietzsche" },
+                { text: "No man ever steps in the same river twice.", author: "Heraclitus" },
+                { text: "To be is to do.", author: "Immanuel Kant" },
+                { text: "Man is condemned to be free.", author: "Jean-Paul Sartre" }
+            ];
+
+            // Select and display random quote
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quote-text').textContent = `"${randomQuote.text}"`;
+            document.getElementById('quote-author').textContent = `- ${randomQuote.author}`;
+
+            // --- Date Calculations ---
+            const now = new Date();
+            
+            // 1. Format Current Date (e.g., FRIDAY, NOVEMBER 13, 2026)
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = now.toLocaleDateString('en-US', options).toUpperCase();
+            document.getElementById('display-date').textContent = formattedDate;
+
+            // 2. Calculate Day of the Year
+            const startOfYear = new Date(now.getFullYear(), 0, 0);
+            const diff = (now - startOfYear) + ((startOfYear.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);
+            const oneDay = 1000 * 60 * 60 * 24;
+            const dayOfYear = Math.floor(diff / oneDay);
+            document.getElementById('display-day-number').textContent = dayOfYear;
+
+            // 3. Calculate Year Progress Percentage
+            const isLeapYear = (year) => (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+            const totalDaysInYear = isLeapYear(now.getFullYear()) ? 366 : 365;
+            const yearProgress = Math.floor((dayOfYear / totalDaysInYear) * 100);
+            document.getElementById('display-year-progress').textContent = yearProgress;
+
+            // 4. Calculate Week Number (ISO standard)
+            const getWeekNumber = (d) => {
+                d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+                d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+                const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+                const weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+                return weekNo;
+            };
+            document.getElementById('display-week').textContent = getWeekNumber(now);
+
+            // 5. Calculate Days Left in Month
+            const totalDaysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+            const daysLeft = totalDaysInMonth - now.getDate();
+            document.getElementById('display-days-left').textContent = daysLeft;
+
+            // 6. Current Month Name for Bottom text
+            const currentMonthName = now.toLocaleDateString('en-US', { month: 'long' });
+            document.getElementById('display-current-month').textContent = currentMonthName;
+            
+            // 7. Dynamic Winter Solstice Countdown
+            const currentYear = now.getFullYear();
+            let solsticeDate = new Date(currentYear, 11, 21); // Month is 0-indexed (11 = December)
+            
+            // If we've passed this year's solstice, target next year's
+            if (now > solsticeDate) {
+                solsticeDate = new Date(currentYear + 1, 11, 21);
+            }
+            
+            const msPerDay = 1000 * 60 * 60 * 24;
+            const daysToSolstice = Math.ceil((solsticeDate - now) / msPerDay);
+            document.getElementById('display-solstice').textContent = daysToSolstice;
+        });
+    </script>
+</body>
+</html>
