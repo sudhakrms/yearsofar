@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today : </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050505;
+        }
+
+        /* Gemini-styled Ambient Drift & Pulse Animation */
+        @keyframes drift-pulse {
+            0% { transform: translate(0px, 0px) scale(1); opacity: 0.6; }
+            33% { transform: translate(40px, -60px) scale(1.15); opacity: 0.8; }
+            66% { transform: translate(-30px, 30px) scale(0.85); opacity: 0.6; }
+            100% { transform: translate(0px, 0px) scale(1); opacity: 0.6; }
+        }
+
+        .animate-drift {
+            animation: drift-pulse 10s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .delay-2000 { animation-delay: 2s; }
+        .delay-4000 { animation-delay: 4s; }
+
+        /* Liquid Glass Card Styling */
+        .liquid-glass {
+            background: rgba(20, 20, 25, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex items-center justify-center overflow-hidden text-gray-100">
+
+    <!-- Glowing Ambient Drift Background -->
+    <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-600 rounded-full mix-blend-screen filter blur-[120px] animate-drift"></div>
+        <div class="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-purple-600 rounded-full mix-blend-screen filter blur-[120px] animate-drift delay-2000"></div>
+        <div class="absolute bottom-1/4 left-1/3 w-[600px] h-[600px] bg-pink-600 rounded-full mix-blend-screen filter blur-[120px] animate-drift delay-4000"></div>
+    </div>
+
+    <!-- Main Liquid Glass Dashboard -->
+    <div class="relative z-10 w-full max-w-2xl p-10 rounded-[2rem] liquid-glass m-4">
+        
+        <!-- Header -->
+        <div class="flex justify-between items-end border-b border-white/10 pb-4 mb-6">
+            <h1 id="date-display" class="text-sm font-semibold tracking-widest uppercase text-gray-300">TODAY : </h1>
+            <span id="day-number" class="text-sm text-gray-400 font-mono">No. --</span>
+        </div>
+
+        <!-- Year Progress -->
+        <div class="mb-10">
+            <h2 class="text-4xl font-light tracking-wide">
+                The year is 
+                <span id="year-progress" class="text-cyan-400 font-bold drop-shadow-[0_0_12px_rgba(34,211,238,0.6)]">--%</span> 
+                written.
+            </h2>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="grid grid-cols-2 gap-8 mb-6 border-t border-white/10 pt-8">
+            
+            <!-- Left Column: Weather & Quote -->
+            <div class="flex flex-col justify-between">
+                <div>
+                    <h3 class="text-xs tracking-wider text-gray-400 uppercase mb-3">Today</h3>
+                    <div class="text-2xl font-medium mb-1">Hyderabad</div>
+                    <div class="flex items-center gap-3 mt-2">
+                        <span class="text-3xl" id="weather-icon">🌤️</span> 
+                        <span class="text-xl font-medium">28°C</span>
+                    </div>
+                    <div class="text-sm text-gray-300 mt-1">Partly Cloudy</div>
+                </div>
+                
+                <div class="mt-10 border-t border-white/10 pt-6">
+                    <p id="quote-text" class="italic text-gray-300 leading-relaxed">"Loading quote..."</p>
+                    <p id="quote-author" class="text-sm text-gray-400 mt-3 font-medium uppercase tracking-wider">- ...</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Sky & Astronomy -->
+            <div class="border-l border-white/10 pl-8">
+                <h3 class="text-xs tracking-wider text-gray-400 uppercase mb-4">Sky</h3>
+                
+                <div class="flex justify-between text-sm mb-3">
+                    <span class="text-gray-400">Sunrise</span> 
+                    <span id="sunrise-time" class="font-medium">6:19 AM</span>
+                </div>
+                <div class="flex justify-between text-sm mb-6">
+                    <span class="text-gray-400">Sunset</span> 
+                    <span id="sunset-time" class="font-medium">5:40 PM</span>
+                </div>
+                
+                <div class="flex items-center gap-4 mb-8">
+                    <!-- CSS Moon phase representation (Waxing Crescent) -->
+                    <div class="w-10 h-10 rounded-full border border-gray-500 shadow-[inset_6px_0_0_0_#e5e7eb] transform rotate-45"></div>
+                    <span class="text-sm font-medium">Waxing Crescent</span>
+                </div>
+                
+                <div class="text-sm text-gray-300">
+                    <span id="solstice-countdown" class="font-semibold text-white">--</span> days to the winter solstice
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex justify-between items-center border-t border-white/10 pt-5 text-xs font-medium tracking-wider text-gray-400 uppercase">
+            <span id="week-number">Week --</span>
+            <span id="days-left-month">-- days left in --</span>
+        </div>
+    </div>
+
+    <!-- Dashboard Logic -->
+    <script>
+        const quotes = [
+            { text: "We suffer more often in imagination than in reality.", author: "Seneca" },
+            { text: "He who has a why to live for can bear almost any how.", author: "Friedrich Nietzsche" },
+            { text: "The unexamined life is not worth living.", author: "Socrates" },
+            { text: "It is not what happens to you, but how you react to it that matters.", author: "Epictetus" },
+            { text: "Happiness is not an ideal of reason, but of imagination.", author: "Immanuel Kant" }
+        ];
+
+        function initDashboard() {
+            const now = new Date();
+            
+            // 1. Title format for H1 and Document Head
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = now.toLocaleDateString(undefined, dateOptions);
+            
+            // Update browser tab <title>
+            document.title = `Today : ${formattedDate}`;
+            
+            // Update visible Header H1
+            document.getElementById('date-display').textContent = `TODAY : ${formattedDate.toUpperCase()}`;
+
+            // 2. Day of the Year
+            const start = new Date(now.getFullYear(), 0, 0);
+            const diff = now - start;
+            const oneDay = 1000 * 60 * 60 * 24;
+            const dayOfYear = Math.floor(diff / oneDay);
+            document.getElementById('day-number').textContent = `No. ${dayOfYear}`;
+
+            // 3. Percentage of Year Passed
+            const isLeapYear = (now.getFullYear() % 4 === 0 && now.getFullYear() % 100 !== 0) || (now.getFullYear() % 400 === 0);
+            const daysInYear = isLeapYear ? 366 : 365;
+            const percentage = ((dayOfYear / daysInYear) * 100).toFixed(0);
+            document.getElementById('year-progress').textContent = `${percentage}%`;
+
+            // 4. Random Quote
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quote-text').textContent = `"${randomQuote.text}"`;
+            document.getElementById('quote-author').textContent = randomQuote.author;
+
+            // 5. Winter Solstice Countdown (Approx Dec 21)
+            let solstice = new Date(now.getFullYear(), 11, 21);
+            if (now > solstice) {
+                solstice = new Date(now.getFullYear() + 1, 11, 21); // Next year if passed
+            }
+            const daysToSolstice = Math.ceil((solstice - now) / oneDay);
+            document.getElementById('solstice-countdown').textContent = daysToSolstice;
+
+            // 6. Week Number
+            const startDate = new Date(now.getFullYear(), 0, 1);
+            const days = Math.floor((now - startDate) / (24 * 60 * 60 * 1000));
+            const weekNumber = Math.ceil((now.getDay() + 1 + days) / 7);
+            document.getElementById('week-number').textContent = `Week ${weekNumber}`;
+
+            // 7. Days left in Month
+            const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+            const daysLeft = daysInMonth - now.getDate();
+            const monthName = now.toLocaleString('default', { month: 'long' });
+            document.getElementById('days-left-month').textContent = `${daysLeft} days left in ${monthName}`;
+        }
+
+        window.onload = initDashboard;
+    </script>
+</body>
+</html>
