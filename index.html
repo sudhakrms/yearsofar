@@ -38,7 +38,7 @@
         }
     </style>
 </head>
-<body class="relative min-h-screen flex items-center justify-center overflow-hidden text-gray-100">
+<body class="relative min-h-screen flex items-center justify-center overflow-hidden text-gray-100 p-4">
 
     <!-- Glowing Ambient Drift Background -->
     <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -48,25 +48,25 @@
     </div>
 
     <!-- Main Liquid Glass Dashboard -->
-    <div class="relative z-10 w-full max-w-2xl p-10 rounded-[2rem] liquid-glass m-4">
+    <div class="relative z-10 w-full max-w-2xl p-6 md:p-10 rounded-3xl md:rounded-[2rem] liquid-glass">
         
         <!-- Header -->
-        <div class="flex justify-between items-end border-b border-white/10 pb-4 mb-6">
-            <h1 id="date-display" class="text-sm font-semibold tracking-widest uppercase text-gray-300">TODAY : </h1>
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end border-b border-white/10 pb-4 mb-6 gap-2">
+            <h1 id="date-display" class="text-sm font-semibold tracking-widest uppercase text-gray-300 leading-snug">TODAY : </h1>
             <span id="day-number" class="text-sm text-gray-400 font-mono">No. --</span>
         </div>
 
         <!-- Year Progress -->
         <div class="mb-10">
-            <h2 class="text-4xl font-light tracking-wide">
+            <h2 class="text-3xl md:text-4xl font-light tracking-wide">
                 The year is 
                 <span id="year-progress" class="text-cyan-400 font-bold drop-shadow-[0_0_12px_rgba(34,211,238,0.6)]">--%</span> 
                 written.
             </h2>
         </div>
 
-        <!-- Two Column Layout -->
-        <div class="grid grid-cols-2 gap-8 mb-6 border-t border-white/10 pt-8">
+        <!-- Responsive One/Two Column Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6 border-t border-white/10 pt-8">
             
             <!-- Left Column: Weather & Quote -->
             <div class="flex flex-col justify-between">
@@ -80,28 +80,28 @@
                     <div class="text-sm text-gray-300 mt-1">Partly Cloudy</div>
                 </div>
                 
-                <div class="mt-10 border-t border-white/10 pt-6">
-                    <p id="quote-text" class="italic text-gray-300 leading-relaxed">"Loading quote..."</p>
-                    <p id="quote-author" class="text-sm text-gray-400 mt-3 font-medium uppercase tracking-wider">- ...</p>
+                <div class="mt-8 border-t border-white/10 pt-6">
+                    <p id="quote-text" class="italic text-gray-300 leading-relaxed text-sm md:text-base">"Loading quote..."</p>
+                    <p id="quote-author" class="text-xs md:text-sm text-gray-400 mt-3 font-medium uppercase tracking-wider">- ...</p>
                 </div>
             </div>
 
             <!-- Right Column: Sky & Astronomy -->
-            <div class="border-l border-white/10 pl-8">
+            <div class="border-t md:border-t-0 md:border-l border-white/10 pt-8 md:pt-0 md:pl-8">
                 <h3 class="text-xs tracking-wider text-gray-400 uppercase mb-4">Sky</h3>
                 
-                <div class="flex justify-between text-sm mb-3">
+                <div class="flex justify-between items-center text-sm mb-3 gap-4">
                     <span class="text-gray-400">Sunrise</span> 
-                    <span id="sunrise-time" class="font-medium">6:19 AM</span>
+                    <span id="sunrise-time" class="font-medium text-right">6:19 AM</span>
                 </div>
-                <div class="flex justify-between text-sm mb-6">
+                <div class="flex justify-between items-center text-sm mb-6 gap-4">
                     <span class="text-gray-400">Sunset</span> 
-                    <span id="sunset-time" class="font-medium">5:40 PM</span>
+                    <span id="sunset-time" class="font-medium text-right">5:40 PM</span>
                 </div>
                 
                 <div class="flex items-center gap-4 mb-8">
                     <!-- CSS Moon phase representation (Waxing Crescent) -->
-                    <div class="w-10 h-10 rounded-full border border-gray-500 shadow-[inset_6px_0_0_0_#e5e7eb] transform rotate-45"></div>
+                    <div class="w-8 h-8 md:w-10 md:h-10 rounded-full border border-gray-500 shadow-[inset_6px_0_0_0_#e5e7eb] transform rotate-45 shrink-0"></div>
                     <span class="text-sm font-medium">Waxing Crescent</span>
                 </div>
                 
@@ -112,7 +112,7 @@
         </div>
 
         <!-- Footer -->
-        <div class="flex justify-between items-center border-t border-white/10 pt-5 text-xs font-medium tracking-wider text-gray-400 uppercase">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-t border-white/10 pt-5 text-xs font-medium tracking-wider text-gray-400 uppercase gap-2">
             <span id="week-number">Week --</span>
             <span id="days-left-month">-- days left in --</span>
         </div>
@@ -135,10 +135,7 @@
             const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             const formattedDate = now.toLocaleDateString(undefined, dateOptions);
             
-            // Update browser tab <title>
             document.title = `Today : ${formattedDate}`;
-            
-            // Update visible Header H1
             document.getElementById('date-display').textContent = `TODAY : ${formattedDate.toUpperCase()}`;
 
             // 2. Day of the Year
